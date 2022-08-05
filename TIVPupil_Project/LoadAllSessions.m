@@ -11,7 +11,7 @@ sessionID = {d.name}.';
 lateral_csvnames = cell(length(sessionID), 1);
 bottom_csvnames = cell(length(sessionID), 1);
 for i = 1:length(d)
-    targetdir = string(strcat(animalDir, '\', sessionID(i), '\', 'DropletsTask'));
+    targetdir = string(strcat(animalDir, '\', sessionID(i), '\', 'dlc_analysis'));
     cd(targetdir)
     temp = dir('*.csv');
     csv_filenames = {temp.name}.'; % first value is cam_0 (lateral) and second value is cam_1 (bottom)
@@ -24,7 +24,7 @@ h5names = cell(length(sessionID), 1);
 for i = 1:length(d)
     targetdir = string(strcat(animalDir, '\', sessionID(i), '\', 'analysis'));
     cd(targetdir)
-    temp = dir('*.h5');
+    temp = dir('*session_for_matlab.h5');
     h5names{i} = {temp.name}.';
 end
 

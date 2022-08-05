@@ -1,5 +1,6 @@
 function [trialData, aligned_frametimes, eventFrames] = ...
     GetGroupTrialData(h5names, DLC_LateralNoLabelsData)
+
 trialData = cell(size(DLC_LateralNoLabelsData,1), 1);
 aligned_frametimes = cell(size(DLC_LateralNoLabelsData,1), 1);
 eventFrames = cell(size(DLC_LateralNoLabelsData,1), 1);
@@ -79,6 +80,6 @@ for i = 1:size(DLC_LateralNoLabelsData, 1)
     eventFrames{i} = struct('trialstart_frames', {trialstart_frames}, 'trialend_frames', {trialend_frames}, 'stim_onsets_frames', {stim_onsets_frames}, 'responseonset_frames', {responseonset_frames}, 'reward_frames', {reward_frames}, 'trialframe_length', {trialframe_length}, 'response2end_length', {response2end_length});
 
     clear correct_side pupil_diameter pupil_trial pupil_stimulus_window pupil_delay_window stim_duration choice noChoice rewarded frame_times reward_times stim_onsets stim_onsets_frames stim_intensity reward_delivered trialframe_length reward_frames timeout_times trialstart_times trialstart_frames trialend_frames responseonset_frames response2end_length response_time
-    
-    fprintf('%s\n', 'Trial data loaded')
 end
+
+fprintf('%s\n', 'Trial data loaded')

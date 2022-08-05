@@ -96,5 +96,7 @@ for i = 1:size(DLC_LateralNoLabelsData, 1)
 
     clear a
     
-    fprintf('%s\n', 'Proceeding to build linear regression model')
+    
 end
+
+fprintf('%s\n', 'Proceeding to build linear regression model')

@@ -11,11 +11,11 @@
 % 2) Add a function for psychometric curve analyses (PsychoCurves.m in
 % progress)
 
-clear, clc, close all
+clear, clc
 
 global mousename smooth_window block_len
 
-mousename = 'JC072';
+mousename = 'JC047';
 smooth_window = 50;
 block_len = 10;
 
@@ -25,10 +25,11 @@ d = dir(animalDir);
 d = d(~ismember({d(:).name},{'.','..'}));
 session_figs = string(d(1).name);
 figuresDir = string(strcat(animalDir, '\', session_figs, '\', 'figures'));
-saved_dataDir = string(strcat(animalDir, '\', session_figs, '\', 'saved_data'));
+saved_dataDir = 'C:\Users\Anne\figures-code\TIVPupil_Project\saved_data';
 
 %% Load session data
-[mousename, lateral_csvnames, bottom_csvnames, h5names] = LoadAllSessions(mousename, projectDir, animalDir);
+[mousename, lateral_csvnames, bottom_csvnames, h5names] = ...
+    LoadAllSessions(mousename, projectDir, animalDir);
 
 %% Import DLC data - make sure the number of labels is correct in the ImportDLC functions
 [DLC_LateralData, DLC_BottomData, DLC_LateralNoLabelsData, DLC_BottomNoLabelsData] = ...
@@ -38,12 +39,14 @@ saved_dataDir = string(strcat(animalDir, '\', session_figs, '\', 'saved_data'));
 %path
 
 %% Get group trial data
-[trialData, aligned_frametimes, eventFrames] = GetGroupTrialData(h5names, DLC_LateralNoLabelsData);
+[trialData, aligned_frametimes, eventFrames] = ...
+    GetGroupTrialData(h5names, DLC_LateralNoLabelsData);
 
 clear animalDir bottom_csvnames lateral_csvnames h5names
 
 %% Align frames with event times
-[events_time_lateral, events_time_bottom] = AlignFrameTimes(DLC_LateralNoLabelsData, aligned_frametimes, eventFrames);
+[events_time_lateral, events_time_bottom] = ...
+    AlignFrameTimes(DLC_LateralNoLabelsData, aligned_frametimes, eventFrames);
 
 %% Making design matrix for regression
 [overall_PCAmatrix_backup, overall_PCAmatrix, trialData_backup, trialData, label_num,...
@@ -55,10 +58,8 @@ clear animalDir bottom_csvnames lateral_csvnames h5names
 global trialNum timespan coordinate labelNum
 
 [trialNum, timespan, coordinate, labelNum] = size(overall_PCAmatrix);
-
 [group_info, factorTime] = GetFactors(overall_PCAmatrix, DLC_LateralNoLabelsData, ...
     trialData);
-
 [Fit_result, R_squared, Fitted, mdl, label_count, overall_PCAmatrix,...
     numTrialsDeleted, deleted] = GroupRegression(factorTime, overall_PCAmatrix,...
     group_info, endpoint);
@@ -73,20 +74,20 @@ global trialNum timespan coordinate labelNum
 
 [pupil_avg, performance_avg] = blockavg_no_overlap(norm_averagedPupil, CorrectRate);
 
-SaveAllFigures(figuresDir);
-
 filename = string(strcat(mousename, '_analyzed_data.mat'));
-cd(saved_dataDir)
 if isfile(filename)
-    prompt = input('Do you want to overwrite the previously saved data for this animal? yes/no (use commas): ');
-    if  strcmp('yes', prompt)
+    prompt = input('Do you want to overwrite the previously saved data for this animal? yes/no');
+    input = prompt;
+    if  strcmp(yes, input)
         disp('Overwriting data')
+        cd(saved_dataDir)
         save(filename);
         cd(projectDir)
     else
         disp('Data not overwritten');
     end
 else
+    cd(saved_dataDir)
     save(filename);
     cd(projectDir)
     disp(string(strcat(mousename, ' data saved to .mat file.')))
