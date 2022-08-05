@@ -1,4 +1,5 @@
 function SaveAllFigures(figuresDir)
+% Original code from: https://www.mathworks.com/matlabcentral/answers/386880-how-can-i-save-instantaneously-all-plots-of-a-script
 
 % To-Do: find a way to not have the figure title text be cropped
 

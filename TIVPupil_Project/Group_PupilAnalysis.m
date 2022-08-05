@@ -73,6 +73,8 @@ global trialNum timespan coordinate labelNum
 
 [pupil_avg, performance_avg] = blockavg_no_overlap(norm_averagedPupil, CorrectRate);
 
+%% Saving data into folders
+
 SaveAllFigures(figuresDir);
 
 filename = string(strcat(mousename, '_analyzed_data.mat'));
