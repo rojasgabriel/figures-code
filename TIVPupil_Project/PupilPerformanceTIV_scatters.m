@@ -14,6 +14,10 @@ ylabel('TIV')
 
 %% Creating deleted by session variable for subsequent analysis
 
+% Note on 8/9/2022: deleted_by_session is not calculated universally for
+% any dataset. Avoid using this part of the script and any other code that
+% relies on this variable for now.
+
 deleted_by_session = cell(length(trialData_backup), 1);
 
 for a = 1:length(trialData_backup)
