@@ -43,9 +43,10 @@ for i = 1:length(trialData_cell)
     % x = a1*stimulus + a2*outcome + a3*responseside + a4*interaction(trial n) + a5*formeroutcome + a6*formerresponseside + a7*interaction(trial n-1) + b
     % y is the same
 
-    deleted_cell{i} = logical((group_info_cell{i}(:,4) == 0) + (group_info_cell{i}(:,6) == 0) + (group_info_cell{i}(:,1) ~= 0));
-    factorTime_cell{i}(deleted_cell{i}, :, :) = [];
-    overall_PCAmatrix_backup{i}(deleted_cell{i}, :, :, :) = [];
+    trialIdx = 1 : size(overall_PCAmatrix_backup{i}, 1);
+    deleted_cell{i} = logical((group_info{i}(:,4) == 0) + (group_info{i}(:,6) == 0) + (group_info{i}(:,1) ~= 0));
+    factorTime_cell{i}(deleted, :, :) = [];
+    overall_PCAmatrix_backup_cell{i}(deleted, :, :, :) = [];
+    trialIdx(deleted) = [];
+    %original_OrderIdx.OrderIdx(deleted) = [];
 end
-
-%% Deleting trials from pupil and performance data
