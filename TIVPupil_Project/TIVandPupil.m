@@ -24,7 +24,6 @@ end
 
 for i = 1:length(averagedPupil)
     averagedPupil{i} = mean(temp4norm{i}, 2, 'omitnan');
-    maxPupil{i} = max(averagedPupil{i});
     norm_averagedPupil{i} = normalize(averagedPupil{i});
 end
 
