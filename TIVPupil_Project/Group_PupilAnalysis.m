@@ -10,12 +10,13 @@
 % animals
 % 2) Add a function for psychometric curve analyses (PsychoCurves.m in
 % progress)
+% 3) Get deleted count for each session
 
 clear, clc, close all
 
 global mousename smooth_window block_len
 
-mousename = 'JC072';
+mousename = 'JC047';
 smooth_window = 50;
 block_len = 10;
 
@@ -56,8 +57,10 @@ global trialNum timespan coordinate labelNum
 
 [trialNum, timespan, coordinate, labelNum] = size(overall_PCAmatrix);
 
-[group_info, factorTime] = GetFactors(overall_PCAmatrix, DLC_LateralNoLabelsData, ...
-    trialData);
+% [group_info, factorTime] = GetFactors(overall_PCAmatrix, DLC_LateralNoLabelsData, ...
+%     trialData);
+
+[group_info, factorTime, overall_PCAmatrix] = GetFactors(overall_PCAmatrix, trialData);
 
 [Fit_result, R_squared, Fitted, mdl, label_count, overall_PCAmatrix,...
     numTrialsDeleted, deleted] = GroupRegression(factorTime, overall_PCAmatrix,...
@@ -75,8 +78,6 @@ global trialNum timespan coordinate labelNum
 
 %% Saving data into folders
 
-SaveAllFigures(figuresDir);
-
 filename = string(strcat(mousename, '_analyzed_data.mat'));
 cd(saved_dataDir)
 if isfile(filename)
@@ -84,14 +85,17 @@ if isfile(filename)
     if  strcmp('yes', prompt)
         disp('Overwriting data')
         save(filename);
+        SaveAllFigures(figuresDir);
         cd(projectDir)
     else
         disp('Data not overwritten');
+        cd(projectDir)
     end
 else
     save(filename);
+    SaveAllFigures(figuresDir);
     cd(projectDir)
-    disp(string(strcat(mousename, ' data saved to .mat file.')))
+    disp(string(strcat(mousename, ' data and figures saved to .mat file.')))
 end
 
 
