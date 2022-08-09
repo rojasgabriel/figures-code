@@ -14,12 +14,10 @@ end
 
 %% Calculating
 averagedPupil = cell(length(temp4norm), 1);
-maxPupil = cell(length(temp4norm), 1);
 norm_averagedPupil = cell(length(temp4norm), 1);
 
 for i = 1:length(trialData_backup)
     averagedPupil{i} = zeros(trialData_backup(i).nTrials, 1);
-    maxPupil{i} = zeros(trialData_backup(i).nTrials, 1);
 end
 
 for i = 1:length(averagedPupil)
