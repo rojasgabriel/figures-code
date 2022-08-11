@@ -10,7 +10,8 @@
 % animals
 % 2) Add a function for psychometric curve analyses (PsychoCurves.m in
 % progress)
-% 3) Get deleted count for each session
+% 3) Re-run analyses for all animals to fix the saved_dataDir location (not
+% essential)
 
 clear, clc, close all
 
@@ -68,20 +69,40 @@ global trialNum timespan coordinate labelNum
 
 %% Analyses
 
+%Calculating TIV and Performance
 [Residual, Explained, CorrectRate, Corre_Matrix] = TIVandPerformance...
     (trialData, overall_PCAmatrix, Fitted, deleted, numTrialsDeleted);
 
+%Calculating Pupil and comparing it to TIV and Performance
 [norm_averagedPupil, norm_pupil_by_session, flipped_pupil] = TIVandPupil(trialData, trialData_backup, ...
     temp4norm, Corre_Matrix, deleted);
 
+%Non-overlapping scatter plots between Pupil and Performance
 [pupil_avg, performance_avg] = blockavg_no_overlap(norm_averagedPupil, CorrectRate);
+
+%Getting Pupil and Performance by session
+[deleted_cell, CorrectRate_cell, norm_averagedPupil_cell] = ...
+    GetPupilPerformance_by_session(overall_PCAmatrix_backup, trialData_backup, temp4norm);
+
+% the following lines could be added to the following function:
+% (GetPupilPerformance_by_session.m)
+[minsize] = min(cellfun('size', CorrectRate_cell, 1));
+
+for i = 1:length(CorrectRate_cell)
+    CorrectRate_cell{i}(minsize+1:end) = [];
+    norm_averagedPupil_cell{i}(minsize+1:end) = [];
+end
+
+cd(saved_dataDir)
+writecell(CorrectRate_cell, 'JC047_performance_by_session.csv');
+writecell(norm_averagedPupil_cell, 'JC047_pupil_by_session.csv');
 
 %% Saving data into folders
 
 filename = string(strcat(mousename, '_analyzed_data.mat'));
 cd(saved_dataDir)
 if isfile(filename)
-    prompt = input('Do you want to overwrite the previously saved data for this animal? yes/no (use commas): ');
+    prompt = input('Do you want to overwrite the previously saved workspace data for this animal (including figures)? yes/no (use commas): ');
     if  strcmp('yes', prompt)
         disp('Overwriting data')
         save(filename);
