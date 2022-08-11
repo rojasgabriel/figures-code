@@ -1,4 +1,5 @@
-%% Getting deleted trials by session
+function [deleted_cell, CorrectRate_cell, norm_averagedPupil_cell] = ...
+    GetPupilPerformance_by_session(overall_PCAmatrix_backup, trialData_backup, temp4norm)
 %% Obtain group_info variable
 
 global smooth_window
@@ -77,15 +78,5 @@ norm_averagedPupil_cell = norm_averagedPupil;
 for i = 1:length(trialData_backup)
     norm_averagedPupil_cell{i}(deleted_cell{i}) = [];
     norm_averagedPupil_cell{i}(end) = [];
-end
-
-%% Trimming cells to have the same length
-
-[minsize] = min(cellfun('size', CorrectRate_cell, 1));
-
-CorrectRate_cell_backup = CorrectRate_cell;
-
-for k=1:length(CorrectRate_cell_backup)
-    CorrectRate_cell_backup{k}=reshape(CorrectRate_cell_backup{k},minsize,[]);
 end
 
