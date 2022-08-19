@@ -15,7 +15,8 @@ end
 
 figure('Name', 'TIV analyses');
 
-subplot(2,2,1);
+
+subplot(2,3,1);
 hold on
 plot(corre_shift);
 xlim([1 401]);
@@ -41,7 +42,7 @@ for i = 1 : length(session_borders)
     coeff_session(i) = x(1,2);
 end
 
-subplot(2,2,2);
+subplot(2,3,2);
 hold on
 
 bar(1, mean(coeff_session),'FaceColor',[.7 .7 .7],'EdgeColor',[.3 .3 .3],'LineWidth',1); 
@@ -93,7 +94,7 @@ end
 
 
 correctRate_sessions(:, end) = [];
-subplot(2,2,3);
+subplot(2,3,4);
 hold on
 for i = 1 : size(correctRate_sessions, 1)
     plot(correctRate_sessions(i, :), 'Color', [0.4 0.4 0.4]);
@@ -111,7 +112,7 @@ title(['Auto correlation coeff: ', num2str(autocorrelation)]);
 
 
 TIV_sessions(:, end) = [];
-subplot(2,2,4);
+subplot(2,3,5);
 hold on
 for i = 1 : size(TIV_sessions, 1)
     plot(TIV_sessions(i, :), 'Color', [0.4 0.4 0.4]);
@@ -123,6 +124,71 @@ ylabel('Task Independent Variance');
 autocorrelation = (sum(sum(corrcoef(TIV_sessions'))) - size(TIV_sessions,1)) / ...
     (size(TIV_sessions,1)*(size(TIV_sessions,1)-1));
 title(['Auto correlation coeff: ', num2str(autocorrelation)]);
+
+clear a b zoom a_adjusted b_adjusted ttt i
+
+
+
+
+%% 4th, Shuffling interpolated TIV + performan across sessions and testing the correlation coefficient distribution
+true_corrCoef = corrcoef(reshape(correctRate_sessions,1,[]),reshape(TIV_sessions,1,[]));
+true_corrCoef = true_corrCoef(1,2);
+
+if size(correctRate_sessions, 1) <= 8   % perms(1:8) has 40320 possible combinations 
+    num_shuffle = size(perms(1:size(correctRate_sessions, 1)),1);
+    order_shuffle = perms(1:size(correctRate_sessions, 1));
+    coef_shuffle = nan(1, num_shuffle);
+    
+    y = reshape(TIV_sessions, 1, []);
+    for i = 1 : num_shuffle
+        a = order_shuffle(i, :);
+        
+        x = correctRate_sessions(a, :);
+        
+        x = reshape(x, 1, []);
+        z = corrcoef(x, y);
+        
+        coef_shuffle(i) = z(1,2);
+    end
+    
+    
+elseif size(correctRate_sessions, 1) > 8
+    num_shuffle = 45000;
+    order_shuffle = nan(num_shuffle, size(correctRate_sessions, 1));
+    for i = 1 : num_shuffle
+        order_shuffle(i, :) = randperm(size(correctRate_sessions, 1));
+    end
+    order_shuffle = unique(order_shuffle, 'rows');
+    
+    num_shuffle = size(order_shuffle, 1);
+    coef_shuffle = nan(1, num_shuffle);
+        
+    y = reshape(TIV_sessions, 1, []);
+    for i = 1 : num_shuffle
+        a = order_shuffle(i, :);
+        
+        x = correctRate_sessions(a, :);
+        
+        x = reshape(x, 1, []);
+        z = corrcoef(x, y);
+        
+        coef_shuffle(i) = z(1,2);
+    end
+    
+end
+
+
+
+subplot(2,3,3);
+hold on
+histogram(coef_shuffle);
+aaa = line([true_corrCoef true_corrCoef], ylim, 'Color','red');
+legend(aaa, {'True Correlation Coeff'});
+
+xlabel('Correlation Coefficient');
+ylabel('Number of Shuffles');
+hold off
+
 
 
 end
