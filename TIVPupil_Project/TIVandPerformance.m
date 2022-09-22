@@ -74,13 +74,9 @@ ylabel('Correct Rate');
 ylim([0.5 1.0])
 xlim([0 length(Corre_Matrix)])
 [sss, p_value] = corrcoef(Corre_Matrix(:,1),Corre_Matrix(:,3));
-% title(['Correlation between Variance & Animal Performance, ', ...
-%     mousename, ' ', session_date, ', Smooth Window: ', num2str(smooth_window), ', Corrcoef: ',...
-%     num2str(sss(1,2)), ', p value: ', num2str(p_value(1,2))]);
-title(['Correlation between Variance & Animal Performance,', ...
-    mousename, ' ', 'Smooth Window: ', num2str(smooth_window), ', Corrcoef: ',...
-    num2str(sss(1,2)), ', p value: ', num2str(p_value(1,2))]);
-% legend({'R Squared', 'Task-Independent Variance', 'Correct Rate'});
+title(['Correlation between Variance & Animal Performance,', mousename])
+subtitle(['Smooth Window: ', num2str(smooth_window), ', Corrcoef: ', num2str(sss(1,2)),...
+    ', p value: ', num2str(p_value(1,2))]);
 xlabel('Trial Number');
 
 borders = cumsum(borders) - smooth_window;

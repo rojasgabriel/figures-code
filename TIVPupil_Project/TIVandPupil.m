@@ -42,12 +42,9 @@ yyaxis right
 plot(norm_averagedPupil);
 ylabel('Normalized Pupil Diameter');
 [sss, p_value] = corrcoef(norm_averagedPupil,Corre_Matrix(:,3));
-% title(['Correlation between TIV & Pupil Diameter, ', ...
-%     mousename, ' ', session_date, ', Smooth Window: ', num2str(smooth_window), ', Corrcoef: ',...
-%     num2str(sss(1,2)), ', p value: ', num2str(p_value(1,2))]);
-title(['Correlation between TIV & Pupil Diameter, ', ...
-    mousename, ' ', 'Smooth Window: ', num2str(smooth_window), ', Corrcoef: ',...
-    num2str(sss(1,2)), ', p value: ', num2str(p_value(1,2))]);
+title(['Correlation between TIV & Pupil Diameter, ', mousename]);
+subtitle(['Smooth Window: ', num2str(smooth_window), ', Corrcoef: ', num2str(sss(1,2)),...
+    ', p value: ', num2str(p_value(1,2))]);
 xlabel('Trial Number');
 xlim([0 length(Corre_Matrix)])
 set(gca,'box','off');
@@ -62,9 +59,9 @@ yyaxis right
 plot(norm_averagedPupil);
 ylabel('Normalized Pupil Diameter');
 [sss, p_value] = corrcoef(norm_averagedPupil,Corre_Matrix(:,1));
-title(['Correlation between Performance & Pupil Diameter, ', ...
-    mousename, ' ', 'Smooth Window: ', num2str(smooth_window), ', Corrcoef: ',...
-    num2str(sss(1,2)), ', p value: ', num2str(p_value(1,2))]);
+title(['Correlation between Performance & Pupil Diameter, ', mousename]);
+subtitle(['Smooth Window: ', num2str(smooth_window), ', Corrcoef: ', num2str(sss(1,2)),...
+    ', p value: ', num2str(p_value(1,2))]);
 xlabel('Trial Number');
 xlim([0 length(Corre_Matrix)])
 set(gca,'box','off');
@@ -79,12 +76,9 @@ yyaxis right
 plot(flipped_pupil);
 ylabel('Normalized Pupil Diameter (flipped)');
 [sss, p_value] = corrcoef(flipped_pupil,Corre_Matrix(:,3));
-% title(['Correlation between TIV & Pupil Diameter, ', ...
-%     mousename, ' ', session_date, ', Smooth Window: ', num2str(smooth_window), ', Corrcoef: ',...
-%     num2str(sss(1,2)), ', p value: ', num2str(p_value(1,2))]);
-title(['Correlation between TIV & Flipped Pupil Diameter, ', ...
-    mousename, ' ', 'Smooth Window: ', num2str(smooth_window), ', Corrcoef: ',...
-    num2str(sss(1,2)), ', p value: ', num2str(p_value(1,2))]);
+title(['Correlation between TIV & Flipped Pupil Diameter, ', mousename]);
+subtitle(['Smooth Window: ', num2str(smooth_window), ', Corrcoef: ', num2str(sss(1,2)),...
+    ', p value: ', num2str(p_value(1,2))]);
 xlabel('Trial Number');
 xlim([0 length(Corre_Matrix)])
 set(gca,'box','off');
@@ -99,9 +93,9 @@ yyaxis right
 plot(flipped_pupil);
 ylabel('Normalized Pupil Diameter (flipped)');
 [sss, p_value] = corrcoef(flipped_pupil,Corre_Matrix(:,1));
-title(['Correlation between Performance & Flipped Pupil Diameter, ', ...
-    mousename, ' ', 'Smooth Window: ', num2str(smooth_window), ', Corrcoef: ',...
-    num2str(sss(1,2)), ', p value: ', num2str(p_value(1,2))]);
+title(['Correlation between Performance & Flipped Pupil Diameter, ', mousename]);
+subtitle(['Smooth Window: ', num2str(smooth_window), ', Corrcoef: ', num2str(sss(1,2)),...
+    ', p value: ', num2str(p_value(1,2))]);
 xlabel('Trial Number');
 xlim([0 length(Corre_Matrix)])
 set(gca,'box','off');
