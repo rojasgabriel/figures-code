@@ -4,7 +4,7 @@
 % 2. Show the performance-TIV correlation coefficient of each session.
 % 3. Look at the general trend of performance and TIV changes within each session.
 
-function TIVanalysis(correctRate, TIV, session_borders)
+function TIVanalysis(correctRate, TIV, session_borders) %TIV variable could also be pupil data
 
 %% 1st, Linear shift test (+-200 trials)
 corre_shift = nan(1, 401);
