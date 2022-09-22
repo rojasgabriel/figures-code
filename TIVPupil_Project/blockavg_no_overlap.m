@@ -6,7 +6,7 @@ pupil_avg = accumarray(ceil((1:numel(norm_averagedPupil))/block_len)',norm_avera
 performance_avg = accumarray(ceil((1:numel(CorrectRate))/block_len)',CorrectRate(:),[],@mean);
 
 figure;
-scatter(pupil_avg, performance_avg)
+scatter(pupil_avg, performance_avg, 'filled')
 xlabel('Normalized Pupil Diameter (z-score)')
 ylabel('Correct Rate')
 title(mousename)
