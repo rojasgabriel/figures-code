@@ -7,7 +7,7 @@ AllFigH = allchild(groot);
     for iFig = 1:numel(AllFigH)
       fig = AllFigH(iFig);
     %   FileName = [fig.Title, '.png'];
-      FileName = sprintf('Figure%03d.png', iFig);
+      FileName = sprintf('Figure%03d.pdf', iFig);
       saveas(fig, fullfile(figuresDir, FileName));
     end
 end
