@@ -17,7 +17,7 @@ clear, clc, close all
 
 global mousename smooth_window block_len
 
-mousename = 'JC047';
+mousename = 'JC072';
 smooth_window = 50;
 block_len = 10;
 
@@ -97,6 +97,23 @@ cd(saved_dataDir)
 writecell(CorrectRate_cell, 'JC047_performance_by_session.csv');
 writecell(norm_averagedPupil_cell, 'JC047_pupil_by_session.csv');
 
+% get session borders for linear shift analyses (to-do: place inside linear shift
+% functions
+session_borders = zeros(length(CorrectRate_cell), 1);
+len = zeros(length(CorrectRate_cell), 1);
+
+for i = 1:length(CorrectRate_cell)
+    len(i) = length(CorrectRate_cell{i});
+    session_borders(i) = len(i);
+end
+
+session_borders = cumsum(session_borders);
+session_borders = transpose(session_borders);
+
+% linear shift analyses (currently misnamed)
+TIV_linear_shift(CorrectRate, Residual, session_borders)
+pupil_linear_shift(CorrectRate, norm_averagedPupil, session_borders)
+
 %% Saving data into folders
 
 filename = string(strcat(mousename, '_analyzed_data.mat'));
@@ -106,7 +123,9 @@ if isfile(filename)
     if  strcmp('yes', prompt)
         disp('Overwriting data')
         save(filename);
-        SaveAllFigures(figuresDir);
+        SaveAllFigures(figuresDir);  
+        save(strcat(mousename, '_pupil_avg.mat'), 'pupil_avg')
+        save(strcat(mousename, '_performance_avg.mat'), 'performance_avg')
         cd(projectDir)
     else
         disp('Data not overwritten');
